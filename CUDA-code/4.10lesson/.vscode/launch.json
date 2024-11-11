@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        
+        {
+            "name": "CUDA调试",
+            "type": "cuda-gdb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/main",
+            
+        },
+        {
+            "name": "CUDA C++: Attach",
+            "type": "cuda-gdb",
+            "request": "attach"
+        }
+    ]
+}
