@@ -1,0 +1,33 @@
+.version 8.5
+.target sm_89
+.address_size 64
+
+.visible .entry vector_add(
+    .param .u64 param_A,
+    .param .u64 param_B,
+    .param .u64 param_C,
+    .param .u32 param_N
+)
+
+{
+    .reg .u32 t_idx;
+    .reg .u64 A, B, C;
+    .reg .u32 N, idx;
+    .reg .f32 val_A, val_B, val_C;
+
+    ld.param.u64 A, [param_A];
+    ld.param.u64 B, [param_B];
+    ld.param.u64 C, [param_C];
+    ld.param.u32 N, [param_N];
+
+    mov.u32 t_idx, %tid.x;
+
+    setp.lt.u32 p, t_idx, N;
+    @p {
+        mul.wide.u32 idx, t_idx, 4;
+        ld.global.f32 val_A, [A + idx];
+        ld.global.f32 val_B, [B + idx];
+        add.f32 val_C, val_A, val_B;
+        st.global.f32 [C + idx], val_C;
+    }
+}
